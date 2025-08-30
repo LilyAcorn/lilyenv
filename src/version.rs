@@ -1,3 +1,5 @@
+use nom::Parser;
+
 use crate::error::Error;
 
 pub const PYPY_DOWNLOAD_URL: &str = "https://downloads.python.org/pypy/";
@@ -95,7 +97,7 @@ fn parse_prerelease(input: &str) -> nom::IResult<&str, PreRelease> {
     use nom::bytes::complete::tag;
     use nom::character::complete::u8;
     let (rest, prerelease_type) =
-        nom::combinator::opt(alt((tag("a"), tag("b"), tag("rc"))))(input)?;
+        nom::combinator::opt(alt((tag("a"), tag("b"), tag("rc")))).parse(input)?;
     let prerelease_type = match prerelease_type {
         None => return Ok((rest, PreRelease::None)),
         Some(prerelease_type) => prerelease_type,
@@ -113,12 +115,12 @@ fn parse_version(version: &str) -> nom::IResult<&str, Version> {
     use nom::bytes::complete::tag;
     use nom::character::complete::u8;
     use nom::sequence::separated_pair;
-    let (rest, interpreter) = nom::combinator::opt(tag("pypy"))(version)?;
-    let (rest, (major, minor)) = separated_pair(u8, tag("."), u8)(rest)?;
-    let (rest, bugfix) = nom::combinator::opt(nom::sequence::preceded(tag("."), u8))(rest)?;
+    let (rest, interpreter) = nom::combinator::opt(tag("pypy")).parse(version)?;
+    let (rest, (major, minor)) = separated_pair(u8, tag("."), u8).parse(rest)?;
+    let (rest, bugfix) = nom::combinator::opt(nom::sequence::preceded(tag("."), u8)).parse(rest)?;
     let (rest, prerelease) = parse_prerelease(rest)?;
-    let (rest, freethreaded) = nom::combinator::opt(tag("t"))(rest)?;
-    let (rest, debug) = nom::combinator::opt(tag("-debug"))(rest)?;
+    let (rest, freethreaded) = nom::combinator::opt(tag("t")).parse(rest)?;
+    let (rest, debug) = nom::combinator::opt(tag("-debug")).parse(rest)?;
     let interpreter = match interpreter {
         Some(_) => Interpreter::PyPy,
         None => Interpreter::CPython,
@@ -144,8 +146,9 @@ fn _parse_cpython_filename(filename: &str) -> nom::IResult<&str, (String, Versio
     let (input, _) = tag("+")(input)?;
     let (input, release_tag) = nom::character::complete::digit1(input)?;
     let (input, freethreaded) =
-        nom::combinator::opt(nom::bytes::complete::take_until("freethreaded"))(input)?;
-    let (input, debug) = nom::combinator::opt(nom::bytes::complete::take_until("debug"))(input)?;
+        nom::combinator::opt(nom::bytes::complete::take_until("freethreaded")).parse(input)?;
+    let (input, debug) =
+        nom::combinator::opt(nom::bytes::complete::take_until("debug")).parse(input)?;
     if freethreaded.is_some() {
         version.freethreaded = true;
     }
