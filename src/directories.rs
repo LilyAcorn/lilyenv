@@ -39,5 +39,5 @@ pub fn project_file(project: &str) -> std::path::PathBuf {
 }
 
 pub fn is_downloaded(python_dir: &std::path::Path) -> std::io::Result<bool> {
-    Ok(python_dir.exists() && std::fs::read_dir(&python_dir)?.next().is_some())
+    Ok(python_dir.exists() && std::fs::read_dir(python_dir)?.next().is_some())
 }
