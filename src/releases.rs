@@ -43,8 +43,7 @@ impl PartialOrd for Python {
     }
 }
 
-async fn _cpython_releases() -> Result<Vec<Python>, Error> {
-    let octocrab = octocrab::instance();
+async fn _cpython_releases(octocrab: &octocrab::Octocrab) -> Result<Vec<Python>, Error> {
     let releases = octocrab
         .repos("astral-sh", "python-build-standalone")
         .releases()
@@ -90,8 +89,9 @@ async fn _cpython_releases() -> Result<Vec<Python>, Error> {
 
 pub async fn cpython_releases() -> Result<Vec<Python>, Error> {
     let mut backoff = 500;
+    let octocrab = octocrab::instance();
     for _ in 1..=5 {
-        return match _cpython_releases().await {
+        return match _cpython_releases(&octocrab).await {
             Ok(releases) => Ok(releases),
             Err(Error::Octocrab(e)) => match &e {
                 OctocrabError::GitHub { source, .. } => {
@@ -119,7 +119,7 @@ pub async fn cpython_releases() -> Result<Vec<Python>, Error> {
             Err(e) => Err(e),
         };
     }
-    match _cpython_releases().await {
+    match _cpython_releases(&octocrab).await {
         Ok(releases) => Ok(releases),
         Err(Error::Octocrab(e)) => match &e {
             OctocrabError::GitHub { source, .. } => {
