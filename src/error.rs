@@ -9,6 +9,8 @@ pub enum Error {
     #[error("{0}")]
     Scraper(String),
     #[error(transparent)]
+    SerdeJson(#[from] serde_json::Error),
+    #[error(transparent)]
     Url(#[from] url::ParseError),
     #[error(transparent)]
     Fs(#[from] std::io::Error),
