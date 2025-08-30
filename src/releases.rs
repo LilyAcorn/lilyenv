@@ -109,7 +109,7 @@ pub async fn cpython_releases() -> Result<Vec<Python>, Error> {
                     }
                 }
                 OctocrabError::Serde { .. } => {
-                    eprintln!("Github server error, retrying");
+                    eprintln!("Github gateway timeout, retrying");
                     tokio::time::sleep(tokio::time::Duration::from_millis(backoff)).await;
                     backoff *= 2;
                     continue;
