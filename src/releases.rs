@@ -46,7 +46,7 @@ impl PartialOrd for Python {
 async fn _cpython_releases() -> Result<Vec<Python>, Error> {
     let octocrab = octocrab::instance();
     let releases = octocrab
-        .repos("indygreg", "python-build-standalone")
+        .repos("astral-sh", "python-build-standalone")
         .releases()
         .list()
         .send()
