@@ -1,3 +1,11 @@
+# 1.6.0
+
+* Obtain an API token from GitHub to avoid rate limiting when accessing data about CPython releases.
+* Fetch less data from the GitHub API in each request to avoid gateway timeout errors.
+* Cache CPython release data from previous requests to avoid unnecessary http queries.
+* Correctly fixup paths in `sysconfig`.
+* Improve the error message for gateway timeouts to distinguish from other rate limiting errors.
+
 # 1.5.1
 
 * Fix regression where old Python versions were preferred for download over more recent bugfix releases.
