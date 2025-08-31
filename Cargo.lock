@@ -1043,7 +1043,7 @@ dependencies = [
 
 [[package]]
 name = "lilyenv"
-version = "1.5.1"
+version = "1.6.0"
 dependencies = [
  "bzip2",
  "chrono",
