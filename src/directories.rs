@@ -38,6 +38,14 @@ pub fn project_file(project: &str) -> std::path::PathBuf {
     project_dir(project).join("directory")
 }
 
+pub fn asset_cache() -> std::path::PathBuf {
+    lilyenv_dir().cache_dir().join("assets.json")
+}
+
+pub fn github_api_token() -> std::path::PathBuf {
+    lilyenv_dir().cache_dir().join("github_auth.json")
+}
+
 pub fn is_downloaded(python_dir: &std::path::Path) -> std::io::Result<bool> {
     Ok(python_dir.exists() && std::fs::read_dir(python_dir)?.next().is_some())
 }

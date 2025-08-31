@@ -157,6 +157,7 @@ fn fixup_sysconfig_paths(python_dir: &Path) -> Result<(), Error> {
     let data = std::fs::read_to_string(&sysconfig)?;
     let install_dir = root.to_str().unwrap();
     let data = data.replace("'/install", &format!("'{}", install_dir));
+    let data = data.replace("\"/install", &format!("\"{}", install_dir));
     let data = data.replace(" /install", &format!(" {}", install_dir));
     let data = data.replace("=/install", &format!("={}", install_dir));
     std::fs::write(&sysconfig, data)?;

@@ -1,16 +1,17 @@
 use nom::Parser;
+use serde::{Deserialize, Serialize};
 
 use crate::error::Error;
 
 pub const PYPY_DOWNLOAD_URL: &str = "https://downloads.python.org/pypy/";
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Deserialize, Serialize)]
 pub enum Interpreter {
     CPython,
     PyPy,
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Deserialize, Serialize)]
 pub enum PreRelease {
     None,
     Alpha(u8),
@@ -18,7 +19,7 @@ pub enum PreRelease {
     RC(u8),
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Deserialize, Serialize)]
 pub struct Version {
     pub interpreter: Interpreter,
     pub major: u8,

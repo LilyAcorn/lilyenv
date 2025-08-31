@@ -1,3 +1,25 @@
+# 1.6.0
+
+* Obtain an API token from GitHub to avoid rate limiting when accessing data about CPython releases.
+* Fetch less data from the GitHub API in each request to avoid gateway timeout errors.
+* Cache CPython release data from previous requests to avoid unnecessary http queries.
+* Correctly fixup paths in `sysconfig`.
+* Improve the error message for gateway timeouts to distinguish from other rate limiting errors.
+
+# 1.5.1
+
+* Fix regression where old Python versions were preferred for download over more recent bugfix releases.
+
+# 1.5.0
+
+* Add `--no-cd` flag to `lilyenv activate` to open the new shell in the current working directory instead of in the project directory.
+* Support relative paths when setting the project directory.
+* Support setting the project directory via `lilyenv activate --directory`.
+* Support setting the project directory via `lilyenv virtualenv --directory`.
+* Support `lilyenv activate` without a Python version when there is a unique virtualenv for the project.
+* Add retry logic for accessing the GitHub API to view CPython releases.
+* Simplify CPython release sorting and hide duplicates.
+
 # 1.4.0
 
 * Support freethreaded CPython installs. `lilyenv activate <project> 3.13t`
