@@ -1,3 +1,17 @@
+# 1.5.1
+
+* Fix regression where old Python versions were preferred for download over more recent bugfix releases.
+
+# 1.5.0
+
+* Add `--no-cd` flag to `lilyenv activate` to open the new shell in the current working directory instead of in the project directory.
+* Support relative paths when setting the project directory.
+* Support setting the project directory via `lilyenv activate --directory`.
+* Support setting the project directory via `lilyenv virtualenv --directory`.
+* Support `lilyenv activate` without a Python version when there is a unique virtualenv for the project.
+* Add retry logic for accessing the GitHub API to view CPython releases.
+* Simplify CPython release sorting and hide duplicates.
+
 # 1.4.0
 
 * Support freethreaded CPython installs. `lilyenv activate <project> 3.13t`
